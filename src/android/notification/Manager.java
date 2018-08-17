@@ -44,6 +44,7 @@ import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.M;
 import static android.os.Build.VERSION_CODES.O;
 import static android.support.v4.app.NotificationManagerCompat.IMPORTANCE_DEFAULT;
+import static android.support.v4.app.NotificationManagerCompat.IMPORTANCE_LOW;
 import static de.appplant.cordova.plugin.notification.Notification.PREF_KEY_ID;
 import static de.appplant.cordova.plugin.notification.Notification.Type.TRIGGERED;
 
@@ -56,9 +57,11 @@ public final class Manager {
 
     // TODO: temporary
     static final String CHANNEL_ID = "default-channel-id";
+    static final String SILENT_CHANNEL_ID = "silent-channel-id";
 
     // TODO: temporary
-    private static final CharSequence CHANNEL_NAME = "Default channel";
+    private static final CharSequence CHANNEL_NAME = "Notifications";
+    private static final CharSequence SILENT_CHANNEL_NAME = "Nearby Devices";
 
     // The application context
     private Context context;
@@ -115,14 +118,18 @@ public final class Manager {
             return;
 
         NotificationChannel channel = mgr.getNotificationChannel(CHANNEL_ID);
+        if (channel == null) {
+            channel = new NotificationChannel(
+                    CHANNEL_ID, CHANNEL_NAME, IMPORTANCE_DEFAULT);
+            mgr.createNotificationChannel(channel);
+        }
 
-        if (channel != null)
-            return;
-
-        channel = new NotificationChannel(
-                CHANNEL_ID, CHANNEL_NAME, IMPORTANCE_DEFAULT);
-
-        mgr.createNotificationChannel(channel);
+        NotificationChannel silent = mgr.getNotificationChannel(SILENT_CHANNEL_ID);
+        if (silent == null) {
+            silent = new NotificationChannel(
+                    SILENT_CHANNEL_ID, SILENT_CHANNEL_NAME, IMPORTANCE_LOW);
+            mgr.createNotificationChannel(silent);
+        }
     }
 
     /**
