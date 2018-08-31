@@ -44,7 +44,7 @@ import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.M;
 import static android.os.Build.VERSION_CODES.O;
 import static android.support.v4.app.NotificationManagerCompat.IMPORTANCE_DEFAULT;
-import static android.support.v4.app.NotificationManagerCompat.IMPORTANCE_LOW;
+import static android.support.v4.app.NotificationManagerCompat.IMPORTANCE_MIN;
 import static de.appplant.cordova.plugin.notification.Notification.PREF_KEY_ID;
 import static de.appplant.cordova.plugin.notification.Notification.Type.TRIGGERED;
 
@@ -127,7 +127,7 @@ public final class Manager {
         NotificationChannel silent = mgr.getNotificationChannel(SILENT_CHANNEL_ID);
         if (silent == null) {
             silent = new NotificationChannel(
-                    SILENT_CHANNEL_ID, SILENT_CHANNEL_NAME, IMPORTANCE_LOW);
+                    SILENT_CHANNEL_ID, SILENT_CHANNEL_NAME, IMPORTANCE_MIN);
             mgr.createNotificationChannel(silent);
         }
     }
